@@ -1,0 +1,501 @@
+<odoo>
+    <data>
+      
+        <template id="assets_frontend" name="website assets" inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" type="text/scss" href="/e_learning_custom/static/src/css/o_style.css"/>
+            </xpath>
+        </template>
+
+        <template id="assets_backend" name="custom_backend_style assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" type="text/scss" href="/e_learning_custom/static/src/css/backend_style.css"/>
+                <script type="text/javascript" src="/e_learning_custom/static/src/js/custom.js"></script>
+            </xpath>
+        </template>
+        
+
+        <template id="my_account_link_inherit" inherit_id="portal.my_account_link">
+            <xpath  expr="//a[@href='/my/home']" position="replace">
+                <a t-att-href="'/profile/user/%s' % uid" role="menuitem" class="dropdown-item">Mon Compte</a>
+            </xpath>
+        </template>
+
+        
+        <template id="login" inherit_id="web.login" name="OAuth Login buttons">
+            <xpath expr="//form" position="replace">
+                <div class="row container-fluid" style="padding-top:100px;">
+
+                    <form class="oe_login_form rounded-lg" style="width: inherit; padding:20px; background: #e49821" role="form" t-attf-action="/web/login" method="post" onsubmit="this.action = '/web/login' + location.hash">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+        
+                        <!-- <div class="form-group field-db" t-if="databases and len(databases) &gt; 1">
+                            <label for="db" class="col-form-label">Database</label>
+                            <div t-attf-class="input-group {{'input-group-sm' if form_small else ''}}">
+                                <input type="text" name="db" t-att-value="request.db" id="db" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" readonly="readonly"/>
+                                <span class="input-group-append">
+                                    <a role="button" href="/web/database/selector" class="btn btn-secondary">Select <i class="fa fa-database" role="img" aria-label="Database" title="Database"></i></a>
+                                </span>
+                            </div>
+                        </div> -->
+        
+                        <div class="form-group field-login">
+                            <label for="login">Login</label>
+                            <input type="text" placeholder="Email" name="login" t-att-value="login" id="login" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autofocus="autofocus" autocapitalize="off"/>
+                        </div>
+        
+                        <div class="form-group field-password">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" placeholder="Password" name="password" id="password" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autocomplete="current-password" t-att-autofocus="'autofocus' if login else None" maxlength="4096"/>
+                        </div>
+        
+                        <p class="alert alert-danger" t-if="error" role="alert">
+                            <t t-esc="error"/>
+                        </p>
+                        <p class="alert alert-success" t-if="message" role="status">
+                            <t t-esc="message"/>
+                        </p>
+        
+                        <div t-attf-class="clearfix oe_login_buttons text-center mb-1 {{'pt-2' if form_small else 'pt-3'}}">
+                            <button type="submit" class="btn btn-primary btn-block">Connexion</button>
+                            <!-- <t t-if="debug">
+                                <button type="submit" name="redirect" value="/web/become" class="btn btn-link btn-sm btn-block">Log in as superuser</button>
+                            </t> -->
+                            <div class="o_login_auth"/>
+                        </div>
+        
+                        <input type="hidden" name="redirect" t-att-value="redirect"/>
+                    </form>
+                    <div class="w-full hidden lg:block">
+                        <img src="/e_learning_custom/static/src/img/loginImage.png" alt="loginImage"/>
+                    </div>
+                </div>
+                
+
+                <!-- <div class="w-full bg-gray lg:flex justify-center items-center ">
+                    <div class=" bg-white p-10 rounded-lg lg:w-[55%] w-full space-y-6 ">
+                        <div class="flex justify-between">
+                        <h1 class="text-3xl">elearning.com</h1>
+                        <div class="">
+                        <img src="https://bpci-elearning.web.app/logobp.png" alt="" width="100"/>
+                    </div>
+                    </div>
+                        <form class="space-y-6" method="post">
+                        <div>
+                        <label id="login" class=" text-md text-light text-slate-400 email">
+                        <input id="login" class=" border border-slate-400 w-full  p-2 rounded-lg" placeholder="Adresse E-mail" type="email" required=""/>
+
+                    </label>
+                    </div>
+                        <div>
+                        <label class=" text-md text-light text-slate-400 email">
+                        <input class=" border border-slate-400 w-full  p-2 rounded-lg" placeholder="Password" type="password" required=""/>
+                        <span style="color: red;">
+
+                    </span>
+                    </label>
+                    </div>
+                        <input type="checkbox" style="margin-right: 10px;"/>Voir le Mot de passe<button type="button" class="w-full p-auto bg-orange text-white my-2 p-2 rounded-lg"> Se connecter</button>
+                    </form>
+                        <div class=" text-orange border-b border-slate-300 pb-5 text-center w-full ">
+                        <a href="/forgotpassword">Mot de passe oublier</a>
+                    </div>
+                        <div class="w-full  text-center">
+                        <a class=" p-auto px-20   m-auto bg-green  text-white my-2 p-2 rounded-lg" href="/register">S'inscrire</a>
+                    </div>
+                    </div>
+                    </div> -->
+                
+            </xpath>
+        </template>
+
+        <template id="courses_home_inherit" inherit_id="website_slides.courses_home">
+            <xpath  expr="//div[@id='wrap']" position="replace">
+                <div id="wrap" class="wrap o_wslides_wrap">
+                <!-- <section class="s_banner overflow-hidden bg-900" style="background-image: url(&quot;/website_slides/static/src/img/banner_default.svg&quot;); background-size: cover; background-position: 55% 65%" data-snippet="s_banner">
+                    <div class="container-fluid align-items-center d-flex mb-5 mt-lg-5 pt-lg-4 pb-lg-1">
+                        <div>
+                            <h1 class="display-3 mb-0">Reach new heights</h1>
+                            <h2 class="mb-4">Start your online course today!</h2>
+                            <div class="row mt-1 mb-3">
+                                <div class="col">
+                                    <p>Skill up and have an impact! Your business career starts here.<br/>Time to start a course.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section> -->
+                <div class="container-fluid mt16 o_wslides_home_nav position-relative">
+                    <nav class="navbar navbar-expand-lg navbar-light shadow-sm" style="background: white!important">
+                        <form method="GET" class="form-inline o_wslides_nav_navbar_right order-lg-3" t-attf-action="/slides/all" role="search">
+                            <div class="input-group">
+                                <input type="search" name="search" class="form-control" placeholder="Search courses" aria-label="Search" t-att-value="search_term"/>
+                                <div class="input-group-append">
+                                    <button class="btn border border-left-0 oe_search_button" type="submit" aria-label="Search" title="Search">
+                                        <i class="fa fa-search"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <button class="navbar-toggler px-2 order-1" type="button"
+                            data-toggle="collapse" data-target="#navbarSlidesHomepage"
+                            aria-controls="navbarSlidesHomepage" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"/>
+                        </button>
+                        <div class="collapse navbar-collapse order-2" id="navbarSlidesHomepage">
+                            <div class="navbar-nav pt-3 pt-lg-0">
+                                <a class="nav-link nav-link mr-md-2 o_wslides_home_all_slides" href="/slides/all"><i class="fa fa-graduation-cap mr-1"/>Tous les cours</a>
+                            </div>
+                        </div>
+                    </nav>
+                    <div class="o_wprofile_email_validation_container">
+                        <t t-call="website_profile.email_validation_banner">
+                            <t t-set="redirect_url" t-value="'/slides'"/>
+                            <t t-set="send_alert_classes" t-value="'alert alert-danger alert-dismissable mt-4 mb-0'"/>
+                            <t t-set="done_alert_classes" t-value="'alert alert-success alert-dismissable mt-4 mb-0'"/>
+                            <t t-set="send_validation_email_message">Cliquez ici pour envoyer un e-mail de vérification vous permettant de participer à la formation en ligne.</t>
+                            <t t-set="additional_validated_email_message"> Vous pouvez maintenant participer à notre formation en ligne.</t>
+                        </t>
+                    </div>
+                </div>
+
+                <div class="container-fluid o_wslides_home_main">
+                    <div class="row">
+                        <t t-set="has_side_column" t-value="is_view_active('website_slides.toggle_leaderboard')"/>
+                        <t t-if="is_public_user">
+                            <div t-if="has_side_column" class="col-lg-3 order-3 order-lg-2">
+                                <div class="row">
+                                    <div class="col-12 col-md-5 col-lg-12">
+                                        <div class="pl-md-5 pl-lg-0">
+                                            <t t-call="website_slides.slides_home_users_small"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <div t-else="" class="col-lg-3 order-lg-2">
+                            <t t-set="has_side_column" t-value="True"/>
+                            <div class="o_wslides_home_aside_loggedin card p-3 p-lg-0 mb-4">
+                                <div class="o_wslides_home_aside_title">
+                                    <div class="d-flex align-items-center">
+                                        <t t-call="website_slides.slides_misc_user_image">
+                                            <t t-set="img_class" t-value="'rounded-circle mr-1'"/>
+                                            <t t-set="img_style" t-value="'width: 22px; height: 22px; object-fit: cover;'"/>
+                                        </t>
+                                        <h5 t-esc="user.name" class="d-flex flex-grow-1 mb-0"/>
+                                        <a class="d-none d-lg-block" t-att-href="'/profile/user/%s' % user.id">Voir</a>
+                                        <a class="d-lg-none btn btn-sm bg-white border" href="#" data-toggle="collapse" data-target="#o_wslides_home_aside_content">Plus d'informations</a>
+                                    </div>
+                                    <hr class="d-none d-lg-block mt-2 pt-2 mb-1"/>
+                                </div>
+                                <div id="o_wslides_home_aside_content" class="collapse d-lg-block">
+                                    <div class="row no-gutters mb-5 mt-3 mt-lg-0">
+                                        <div class="col-12 col-sm-6 col-lg-12">
+                                            <t t-call="website_slides.slides_home_user_profile_small"/>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-12 pl-md-5 pl-lg-0 mt-lg-4">
+                                            <t t-call="website_slides.slides_home_user_achievements_small"/>
+                                        </div>
+                                        <div class="col-12 col-md-7 col-lg-12 pl-md-5 pl-lg-0 mt-lg-4 mb-3">
+                                            <t t-call="website_slides.slides_home_achievements_small"/>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-12 pl-md-5 pl-lg-0 mt-lg-4">
+                                            <t t-call="website_slides.slides_home_users_small"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div t-att-class="'col-lg-9 pr-lg-5 order-lg-1' if has_side_column else 'col-lg pr-lg'">
+                            <div class="o_wslides_home_content_section mb-3"
+                                t-if="not channels_popular">
+                                <p class="h2">Aucun cours n'a encore été créé.</p>
+                                <p groups="website_slides.group_website_slides_officer">Cliquez sur "Nouveau" dans le coin supérieur droit pour rédiger votre premier cours.</p>
+                            </div>
+                            <t t-if="channels_my">
+                                <t t-set="void_count" t-value="3 - len(channels_my[:3])"/>
+                                <div class="o_wslides_home_content_section mb-3">
+                                    <div class="row o_wslides_home_content_section_title align-items-center">
+                                        <div class="col">
+                                            <a href="/slides/all?my=1" class="float-right">Voir tout</a>
+                                            <h5 class="m-0">Mes Cours</h5>
+                                            <hr class="mt-2 pb-1 mb-1"/>
+                                        </div>
+                                    </div>
+                                    <div class="mx-n2 mt8" style="padding: 20px;">
+                                        <t t-foreach="channels_my[:3]" t-as="channel">
+                                            <div class="d-flex rounded-view">
+                                                <t t-call="e_learning_custom.course_card2"/>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            <div class="o_wslides_home_content_section mb-3"
+                                t-if="channels_popular">
+                                <div class="row o_wslides_home_content_section_title align-items-center">
+                                    <div class="col">
+                                        <a href="slides/all" class="float-right">Voir tout</a>
+                                        <h5 class="m-0">Cours les plus populaires</h5>
+                                        <hr class="mt-2 pb-1 mb-1"/>
+                                    </div>
+                                </div>
+                                <div class="mx-n2 mt8" style="padding: 20px;">
+                                    <t t-foreach="channels_popular[:3]" t-as="channel">
+                                        <div class="d-flex rounded-view">
+                                            <t t-call="e_learning_custom.course_card2"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="o_wslides_home_content_section mb-3"
+                                t-if="channels_newest">
+                                <div class="row o_wslides_home_content_section_title align-items-center">
+                                    <div class="col">
+                                        <a href="slides/all" class="float-right">Voir tout</a>
+                                        <h5 class="m-0">Nouveaux cours</h5>
+                                        <hr class="mt-2 pb-1 mb-1"/>
+                                    </div>
+                                </div>
+                                <div class="mx-n2 mt8" style="padding: 20px;">
+                                    <t t-foreach="channels_newest[:3]" t-as="channel">
+                                        <div class="d-flex rounded-view">
+                                            <t t-call="e_learning_custom.course_card2"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <t t-call="website_slides.courses_footer"></t>
+            </div>
+            </xpath>
+        </template>
+
+        <!-- <template id="course_card_inherit" inherit_id="website_slides.course_card">
+            <xpath  expr="//div[class('o_wslides_course_card')]" position="replace">
+            
+            </xpath>
+        </template> -->
+
+        <template id='course_card2' name="Course Card">
+            <div t-attf-class="flex-row-responsive card w-100 lg-flex o_wslides_course_card mb-4 #{'o_wslides_course_unpublished' if not channel.is_published else ''}" style="height: 250px">
+                <t t-set="course_image" t-value="website.image_url(channel, 'image_1024')"/>
+                <a style="padding: 10px" t-attf-href="/slides/#{slug(channel)}" t-title="channel.name">
+                    <t t-if="channel.partner_has_new_content" t-call="website_slides.course_card_information"/> 
+                    <!-- <div t-if="channel.image_1024" class="card-img-top" t-attf-style="padding-top: 50%; background-image: url(#{course_image}); background-size: cover; background-position:center"/> -->
+                    <img t-if="channel.image_1024" class="py-1 mr-2 course-img-fluid rounded-img" t-att-src="website.image_url(channel, 'image_1024')" alt="..."/>
+                    <div t-else="" class="o_wslides_gradient card-img-top position-relative" style="padding-top: 50%; opacity: 0.8">
+                        <i class="fa fa-graduation-cap fa-2x mr-3 mb-3 position-absolute text-white-75" style="right:0; bottom: 0"/>
+                    </div>
+                </a>
+                <div class="flex card-body p-3">
+                <div class="card-body p-3">
+                    <a class="card-title h5 mb-2 o_wslides_desc_truncate_2" t-attf-href="/slides/#{slug(channel)}" t-esc="channel.name"/>
+                    <span t-if="not channel.is_published" class="badge badge-danger p-1">Non publié</span>
+                    <div class="card-text mt-1">
+                        <div class="font-weight-light o_wslides_desc_truncate_3" t-field="channel.description_short"/>
+                        <div t-if="channel.tag_ids" class="mt-2 pt-1 o_wslides_desc_truncate_2">
+                            <t t-foreach="channel.tag_ids" t-as="tag">
+                                <t t-if="search_tags">
+                                    <a t-att-href="'/slides/all?%s' % keep_query('*', tags=str((tag | search_tags).ids))" t-attf-class="badge #{'badge-primary' if tag in search_tags else 'o_wslides_channel_tag o_tag_color_0'}" t-esc="tag.name"/>
+                                </t>
+                                <t t-else="">
+                                    <a t-att-href="'/slides/all?%s' % keep_query('*', tags=str((tag | search_tags).ids))" t-attf-class="badge o_wslides_channel_tag #{'o_tag_color_'+str(tag.color)}" t-esc="tag.name"/>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white text-600 px-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small t-if="channel.total_time" class="font-weight-bold" t-esc="channel.total_time" t-options="{'widget': 'duration', 'unit': 'hour', 'round': 'minute'}"/>
+                        <div class="d-flex flex-grow-1 justify-content-end">
+                            <t t-if="channel.is_member and channel.completed">
+                                <span class="badge badge-pill badge-success pull-right py-1 px-2"><i class="fa fa-check"/> Terminé</span>
+                            </t>
+                            <div t-elif="channel.is_member and channel.channel_type != 'documentation'" class="progress w-50" style="height: 6px">
+                                <div class="progress-bar" role="progressbar" t-att-aria-valuenow="channel.completion" aria-valuemin="0" aria-valuemax="100" t-attf-style="width:#{channel.completion}%;"/>
+                            </div>
+                            <small t-else=""><b t-esc="channel.total_slides"/> étapes</small>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <link rel="stylesheet" href="/e_learning_custom/static/src/css/style.css" />
+            </div>
+        </template>
+
+        <template id="course_main_inherit" inherit_id="website_slides.course_main">
+            <xpath  expr="//div[@id='wrap']" position="replace">
+                <div id="wrap" t-attf-class="wrap mt-0">
+                    <div style="background-image: linear-gradient(120deg, #061c3a, #e49821);" t-attf-class="o_wslides_course_header o_wslides_gradient position-relative text-white pb-md-0 pt-2 pt-md-5 #{'pb-3' if channel.channel_type == 'training' else 'o_wslides_course_doc_header pb-5'}">
+                        <t t-call="website_slides.course_nav"/>
+        
+                        <div class="container-fluid mt-5 mt-md-3 mt-xl-4">
+                            <div class="row align-items-end align-items-md-stretch">
+                                <!-- ==== Header Left ==== -->
+                                <div class="col-12 col-md-4 col-lg-3">
+                                    <div class="d-flex align-items-end justify-content-around h-100">
+                                        <div t-if="channel.image_1920" t-field="channel.image_1920" t-options='{"widget": "image", "class": "o_wslides_course_pict d-inline-block mb-2 mt-3 my-md-0"}' class="h-100"/>
+                                        <div t-else="" class="h-100">
+                                            <img t-att-src="'/website_slides/static/src/img/channel-%s-default.jpg' % ('training' if channel.channel_type == 'training' else 'documentation')"
+                                                class="o_wslides_course_pict d-inline-block mb-2 mt-3 my-md-0"/>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <!-- ==== Header Right ==== -->
+                                <div class="col-12 col-md-8 col-lg-9 d-flex flex-column">
+                                    <div class="d-flex flex-column">
+                                        <h1 t-field="channel.name"/>
+                                        <p class="mb-0 mb-xl-3" t-field="channel.description"/>
+        
+                                        <div t-if="channel.channel_type == 'documentation'" class="d-flex mb-md-5">
+                                            <button role="button" class="btn text-white pl-0" title="Share Channel"
+                                                aria-label="Share Channel"
+                                                data-toggle="modal" t-att-data-target="'#slideChannelShareModal_%s' % channel.id">
+                                                <i class="fa fa-share-square"></i> Partager
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center h5 flex-grow-1 mb-md-5" t-if="channel.allow_comment">
+                                        <t t-call="portal_rating.rating_stars_static_popup_composer">
+                                            <t t-set="rating_avg" t-value="rating_avg"/>
+                                            <t t-set="rating_total" t-value="rating_count"/>
+                                            <t t-set="object" t-value="channel"/>
+                                            <t t-set="token" t-value="channel.access_token"/>
+                                            <t t-set="hash" t-value="message_post_hash"/>
+                                            <t t-set="pid" t-value="message_post_pid"/>
+                                            <t t-set="default_message" t-value="last_message"/>
+                                            <t t-set="default_message_id" t-value="last_message_id"/>
+                                            <t t-set="default_rating_value" t-value="last_rating_value"/>
+                                            <t t-set="default_attachment_ids" t-value="last_message_attachment_ids"/>
+                                            <t t-set="force_submit_url" t-value="'/slides/mail/update_comment' if last_message_id else False"/>
+                                            <t t-set="disable_composer" t-value="not channel.can_review"/>
+                                            <t t-set="_link_btn_classes" t-value="'btn-link text-white'"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Share modal : here to avoid having text-white from o_wslides_course_header -->
+                    <t t-call="website_slides.slide_share_modal" t-if="channel.channel_type == 'documentation'">
+                        <t t-set="record" t-value="channel"/>
+                    </t>
+        
+                    <div class="o_wslides_course_main">
+                        <!-- ========== TRAINING COURSE ========== -->
+                        <div t-if="channel.channel_type == 'training'" class="container-fluid">
+                            <div class="row">
+                                <!-- Training Sidebar -->
+                                <div class="col-12 col-md-4 col-lg-3 mt-3 mt-md-0">
+                                    <t t-call="website_slides.course_sidebar"/>
+                                </div>
+        
+                                <!-- Training Content -->
+                                <div class="col-12 col-md-8 col-lg-9">
+                                    <ul class="nav nav-tabs o_wslides_nav_tabs flex-nowrap" role="tablist" id="profile_extra_info_tablist">
+                                        <li class="nav-item">
+                                            <a t-att-class="'nav-link %s' % ('active' if active_tab == 'home' else '')"
+                                                id="home-tab" data-toggle="pill" href="#home" role="tab" aria-controls="home"
+                                                t-att-aria-selected="'true' if active_tab == 'home' else 'false'">
+                                                <i class="fa fa-home"/> Cours
+                                            </a>
+                                        </li>
+                                        <li t-if="channel.allow_comment" class="nav-item o_wslides_course_header_nav_review_training">
+                                            <a t-att-class="'nav-link %s' % ('active' if active_tab == 'review' else '')"
+                                                id="review-tab" data-toggle="pill" href="#review" role="tab" aria-controls="review"
+                                                t-att-aria-selected="'true' if active_tab == 'review' else 'false'">
+                                                Avis<t t-if="rating_count"> (<t t-esc="rating_count"/>)</t>
+                                            </a>
+                                        </li>
+                                    </ul>
+        
+                                    <div class="tab-content py-4 o_wslides_tabs_content mb-4" id="courseMainTabContent">
+                                        <div t-att-class="'tab-pane fade %s' % ('show active' if active_tab == 'home' else '')" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                            <div class="mb-2 pt-1">
+                                                <t t-if="channel.tag_ids">
+                                                    <t t-foreach="channel.tag_ids" t-as="channel_tag">
+                                                        <span t-attf-class="badge o_wslides_channel_tag #{'o_tag_color_'+str(channel_tag.color)}" t-esc="channel_tag.name"/>
+                                                    </t>
+                                                </t>
+                                                <a t-if="channel.can_upload"
+                                                    class="o_wslides_js_channel_tag_add border badge badge-light font-weight-normal py-1 m-1"
+                                                    role="button"
+                                                    aria-label="Add Tag"
+                                                    href="#"
+                                                    t-att-data-channel-id="channel.id"
+                                                    t-att-data-channel-tag-ids="channel.tag_ids.ids">
+                                                    <span>Ajouter un Tag</span>
+                                                 </a>
+                                            </div>
+                                            <t t-if="channel.channel_type == 'training'" t-call="website_slides.course_slides_list"/>
+                                        </div>
+                                        <div t-if="channel.allow_comment" t-att-class="'tab-pane fade %s' % ('show active' if active_tab == 'review' else '')" id="review" role="tabpanel" aria-labelledby="review-tab">
+                                            <t t-call="portal.message_thread">
+                                                <t t-set="object" t-value="channel"/>
+                                                <t t-set="hash" t-value="message_post_hash"/>
+                                                <t t-set="pid" t-value="message_post_pid"/>
+                                                <t t-set="display_rating" t-value="True"/>
+                                                <t t-set="disable_composer" t-value="True"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- ========== DOCUMENTATION COURSE ========== -->
+                        <t t-if="channel.channel_type == 'documentation'">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12 col-md-8 offset-md-4 col-lg-9 offset-lg-3">
+                                        <ul class="nav nav-tabs o_wslides_nav_tabs o_wslides_doc_nav_tabs flex-nowrap" role="tablist" id="profile_extra_info_tablist">
+                                            <li class="nav-item">
+                                                <a t-att-class="'nav-link %s' % ('active' if active_tab == 'home' else '')"
+                                                    id="home-tab" data-toggle="pill" href="#home" role="tab" aria-controls="home"
+                                                    t-att-aria-selected="'true' if active_tab == 'home' else 'false'">
+                                                    <i class="fa fa-home"/>
+                                                    Cours
+                                                </a>
+                                            </li>
+                                            <li t-if="channel.allow_comment" class="nav-item o_wslides_course_header_nav_review_documentation">
+                                                <a t-att-class="'nav-link %s' % ('active' if active_tab == 'review' else '')"
+                                                    id="review-tab" data-toggle="pill" href="#review" role="tab" aria-controls="review"
+                                                    t-att-aria-selected="'true' if active_tab == 'review' else 'false'">
+                                                    Avis<t t-if="rating_count"> (<t t-esc="rating_count"/>)</t>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="tab-content pb-5" id="courseMainTabContent">
+                                <div t-att-class="'tab-pane fade %s' % ('show active' if active_tab == 'home' else '')" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <t t-if="channel.channel_type == 'documentation'" t-call="website_slides.course_slides_cards"/>
+                                </div>
+                                <div t-if="channel.allow_comment" t-att-class="'tab-pane fade %s' % ('show active' if active_tab == 'review' else '')" id="review" role="tabpanel" aria-labelledby="review-tab">
+                                    <div class="container-fluid pt-4">
+                                        <t t-call="portal.message_thread">
+                                            <t t-set="object" t-value="channel"/>
+                                            <t t-set="hash" t-value="message_post_hash"/>
+                                            <t t-set="pid" t-value="message_post_pid"/>
+                                            <t t-set="display_rating" t-value="True"/>
+                                            <t t-set="disable_composer" t-value="True"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

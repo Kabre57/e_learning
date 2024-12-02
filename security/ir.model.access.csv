@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_e_learning_custom_e_learning_custom,e_learning_custom.e_learning_custom,model_e_learning_custom_e_learning_custom,base.group_user,1,1,1,1

@@ -1,0 +1,32 @@
+.o_main_navbar {
+    display: none !important;
+}
+.o_wslides_body.o_connected_user {
+    padding-top: 1px !important;
+}
+
+body.o_connected_user {
+    padding-top: 1px !important;
+}
+
+/* .o_footer {
+    display: none !important;
+} */
+
+section.s_text_block.pt40.pb16 {
+    display: none !important;
+}
+
+div.col-sm.text-center.text-sm-right.o_not_editable {
+    display: none !important;
+}
+
+div.js_language_selector.dropup {
+    display: none !important;
+}
+
+@media (min-width: 992px){
+    #top {
+        top: 1px !important;
+    }
+}

@@ -1,0 +1,13 @@
+
+.btn-primary {background: #061c3a !important;border-color: #061c3a !important;}
+
+.o_main_navbar {background-color: #061c3a !important;border-bottom: 0px;}
+.o_main_navbar .show .dropdown-toggle {background-color: #061c3a;}
+.o_main_navbar > ul > li > a:hover, .o_main_navbar 
+        > ul > li > label:hover {background-color: #1f2a3a;}
+.o_main_navbar > a:hover, .o_main_navbar > a:focus, .o_main_navbar 
+        > button:hover, .o_main_navbar 
+        > button:focus {background-color: #1f2a3a;color: inherit;}
+.o_main_navbar > a:hover, .o_main_navbar > a:focus, .o_main_navbar 
+        > button:hover, .o_main_navbar 
+        > button:focus {background-color: #1f2a3a;color: inherit;}

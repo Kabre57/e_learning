@@ -1,0 +1,19 @@
+<odoo>
+
+    <record id="elearning_rule"  model="ir.module.category">
+        <field name="name">Elearning BPCI</field>
+        <field name="sequence">20</field>
+        <field name="description">Elearning BPCI Security</field>
+    </record>
+
+    <record model="res.groups" id="group_bcpi_user">
+        <field name="name">Elearning BPCI User</field>
+        <field name="category_id" ref="e_learning_custom.elearning_rule"/>
+    </record>
+
+    <record model="res.groups" id="group_bcpi_manager">
+        <field name="name">Elearning BPCI Manager</field>
+        <field name="category_id" ref="e_learning_custom.elearning_rule"/>
+    </record>
+
+</odoo>
